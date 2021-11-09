@@ -27,8 +27,8 @@ start();
 /*--------------Basic framework-------------*/
 async function start() {
     console.log("Let's play a game where you (human) make up a number between 1 and 100, and I (computer) guess it.")
-    let secretNumber = await ask("What is your secret number?\nI won't peek.\n");
-    console.log('You entered: ' + secretNumber);
+    let secretNumb = await ask("What is your secret number?\nI won't peek.\n");
+    console.log('You entered: ' + secretNum);
     let compGuess = randomNum(min,max)
     // console.log(compGuess) <- this (would) redefine compGuess to now *become* the number produced by randomNum
     let answer = await ask('Is your number ' + compGuess + "?") //if we left it here the answer would be 'waited on' but not really asigned to smth
