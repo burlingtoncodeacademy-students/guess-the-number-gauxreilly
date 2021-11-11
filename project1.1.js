@@ -23,43 +23,49 @@ function inputNum(min,max){
 Math.floor(Math.random() * range); //Math.floor rounds down to the nearest whole number
 }
 
+//to resolve more stories, create more gloval functions
+
+function smartGuess(min,max) {
+    return Math.floor((min + max)/2)
+}
+
 start();
 /*--------------Basic framework-------------*/
 async function start() {
     console.log("Let's play a game where you (human) make up a number between 1 and 100, and I (computer) guess it.")
     let secretNum = await ask("What is your secret number?\nI won't peek.\n");
     console.log('You entered: ' + secretNum);
-    let compGuess = inputNum(min,max);
-    let answer1 = await ask('Is your number ' + compGuess + "? ") //if we left it here the answer1 would be 'waited on' but not really asigned to smth
-    if(answer1 === "yes" ) {
-        console.log("Whoo hoo! Skynet wins again!!")
-        process.exit(); //not sure if this is supposed to go only at the end or what
+    let compGuess = smartGuess(min,max);
+    let answer = await ask('Is your number ' + compGuess + "? ") 
+    if(answer === "yes") {
+        console.log("Woohoo! Skynet wins again!!")
+        process.exit(); 
     }
 
  /*-------------Next Story?----------*/
     else {   
-    while(answer1 !== "yes") {
+    while(answer !== "yes") {
         console.log("Hmmm, okay.")
-        let highlow = await ask("Is the number higher or lower?")
-        console.log(highlow);
+        let highLow = await ask("Is the number higher or lower? ")
     
-        if(highlow = "Lower") {
-//            let min = 1;
-//            let max = compGuess;
-            console.log("Hmm, so your number is lower than " + compGuess);
-            let answer2 = await ask('Is your number ' + inputNum(1,compGuess) + "? ")
-        }
-        if(highlow = "Higher") {
-//            let min = compGuess;
-//            let max = 100;
-            console.log("Hmm, so your number is higher than " + compGuess);
-            let answer2 = await ask('Is your number ' + inputNum(compGuess,100) + "? ")
-        }
-    }
-    
+        if(highLow === "Higher") { //if it's higher, you want to resert the range to have a lower limit of your compGuess + 1
+            console.log("Hmm, so your number is higher than " + compGuess + ". ");
+            min = compGuess + 1;
+            compGuess = smartGuess(min,max)
 
+    }   else if(highLow === "Lower") {
+            console.log("Hmm, so your number is lower than " + compGuess + ". ");
+            max = compGuess - 1;
+            compGuess = smartGuess(min, max)
+        }   
+        //remember we are still in a while loop; if the answer is not in the affirmative, run this whileloop. currently we are not checking if there is the right guess
+
+        answer = await ask("Is your number " + compGuess + "? "); //not using let bc we are not redefining, just reassigning the variable
+        
+        if(answer === "yes") {
+            console.log("Woohoo! Skynet wins again!!")
+        }
     process.exit();
-
+    }
 }
 }
-//check out pt2 'numbers' for random number gen info
