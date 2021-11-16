@@ -91,9 +91,9 @@ async function start() {
     else {
         while (answer !== "yes") {
             console.log("Hmmm, okay.")
-            let highLow = await ask("Is the number higher or lower? ")
+            let highLow = await ask("Is the number higher or lower? (higher/lower) ")
 
-            if (highLow === "Higher") { //if it's higher, you want to reset the range to have a lower limit of your compGuess + 1
+            if (highLow === "higher") { //if it's higher, you want to reset the range to have a lower limit of your compGuess + 1
                 console.log("Hmm, so your number is higher than than " + compGuess + " and lower than " + (max + 1) + ". ");
                 min = compGuess + 1;
                 if (min > max) {
@@ -110,7 +110,7 @@ async function start() {
 
                 compGuess = smartGuess(min, max)
 
-            } else if (highLow === "Lower") {
+            } else if (highLow === "lower") {
                 console.log("Hmm, so your number is higher than " + (min - 1) + " and lower than " + compGuess + ". ");
                 max = compGuess - 1;
                 if (min > max) {
